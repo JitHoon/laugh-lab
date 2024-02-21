@@ -39,6 +39,7 @@ const InputText = ({ addMessage }: Props) => {
     addMessage({
       message,
     });
+
     setMessage("");
   }
 
