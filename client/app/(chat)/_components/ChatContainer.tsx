@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import socketIOClient from "socket.io-client";
+import io from "socket.io-client";
 import {
   doc,
   setDoc,
@@ -19,7 +19,12 @@ import db from "@/firebase/app";
 
 const ChatContainer = () => {
   // ERROR: Module not found: Can't resolve 'bufferutil' in '/Users/jithoon/Documents/laugh-lab/client/node_modules/ws/lib'
-  let socketio = socketIOClient("http://localhost:5001");
+  let socket = io("http://localhost:5001/chat", {
+    withCredentials: true,
+    extraHeaders: {
+      "my-custom-header": "abcd",
+    },
+  });
 
   const [chats, setChats] = useState<any>([]);
   const [user, setUser] = useState<any>("");
@@ -52,17 +57,17 @@ const ChatContainer = () => {
   }, []);
 
   useEffect(() => {
-    socketio.on("chat", (senderChats) => {
+    socket.on("chat", (senderChats) => {
       setChats(senderChats);
     });
 
     return () => {
-      socketio.off("chat");
+      socket.off("chat");
     };
   }, []);
 
   const sendChatToSocket = (chat: any) => {
-    socketio.emit("chat", chat);
+    socket.emit("chat", chat);
   };
 
   const addToFirrebase = (chat: any) => {

@@ -10,7 +10,10 @@ const server = http.createServer(app);
 // REF: Socket.IO 서버를 생성합니다.
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "http://http://43.201.73.1/chat",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
   },
 });
 
