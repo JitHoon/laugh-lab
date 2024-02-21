@@ -1,5 +1,5 @@
 // REF: 필요한 모듈을 가져옵니다.
-const express = require("express");
+import express from "express";
 const http = require("http");
 const Server = require("socket.io").Server; // REF: Socket.IO의 서버 클래스를 가져옵니다.
 const app = express();
@@ -35,11 +35,11 @@ app.get("/*", function (req, res) {
 });
 
 // REF: 클라이언트와의 소켓 통신을 위한 이벤트 핸들러를 설정합니다.
-io.on("connection", (socket) => {
+io.on("connection", (socket: any) => {
   console.log("We are connected");
 
   // REF: 클라이언트에서 'chat' 이벤트를 수신하면 모든 클라이언트에게 해당 이벤트를 전달합니다.
-  socket.on("chat", (chat) => {
+  socket.on("chat", (chat: any) => {
     io.emit("chat", chat);
   });
 
